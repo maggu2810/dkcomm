@@ -12,11 +12,18 @@ import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.soda.dk.comm.internal.Library;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author IBM
  */
 public class CommPortIdentifier {
+
+    private static Logger logger() {
+        return LoggerFactory.getLogger(CommPortIdentifier.class);
+    }
+
     /**
      * Define polling time value.
      */
@@ -49,7 +56,7 @@ public class CommPortIdentifier {
             // System.loadLibrary("dkcomm"); // replace the old ibmcomm //$NON-NLS-1$
             Library.load_dkcomm();
         } catch (final UnsatisfiedLinkError e) {
-            e.printStackTrace();
+            logger().error("Loading dkcomm library failed.", e);
             System.exit(1);
         }
         if (!initialized) {

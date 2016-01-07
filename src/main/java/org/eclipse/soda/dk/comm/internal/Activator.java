@@ -2,6 +2,8 @@ package org.eclipse.soda.dk.comm.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author IBM
@@ -9,6 +11,9 @@ import org.osgi.framework.BundleContext;
  * @since 1.0
  */
 public class Activator implements BundleActivator {
+
+    private final Logger logger = LoggerFactory.getLogger(Activator.class);
+
     /**
      * Parse bundle list with the specified raw list and bundle file parameters and return the String result.
      *
@@ -66,40 +71,38 @@ public class Activator implements BundleActivator {
     /**
      * Start with the specified arg0 parameter.
      *
-     * @param arg0 The arg0 (<code>BundleContext</code>) parameter.
+     * @param ctx The <code>BundleContext</code> parameter.
      * @throws Exception Exception.
      */
     @Override
-    public void start(final BundleContext arg0) throws Exception {
-        /*
-         * String bundle_loc = arg0.getBundle().getLocation();
-         * if (bundle_loc.startsWith(Library.HTTP)) {
-         * Library.setBundlepath(Library.HTTP, bundle_loc);
-         * } else {
-         * String bundle_file_name = parseLoc(bundle_loc);
-         * String bundle_install = parseInstall(System.getProperty("osgi.install.area")); //$NON-NLS-1$
-         * String bundle_path = parseBundleList(System.getProperty("osgi.bundles"), bundle_file_name); //$NON-NLS-1$
-         * if (bundle_path == null || bundle_path.length() == bundle_file_name.length()) {
-         * bundle_path = bundle_install + bundle_file_name;
-         * }
-         * /*
-         * System.out.println("bundle=" + bundle_file_name);
-         * System.out.println("bundle_install=" + bundle_install);
-         * System.out.println("bundle_path=" + bundle_path);
-         *
-         * Library.setBundlepath(Library.FILE, bundle_path);
-         * }
-         */
+    public void start(final BundleContext ctx) throws Exception {
+        // String bundle_loc = ctx.getBundle().getLocation();
+        // if (bundle_loc.startsWith(Library.HTTP)) {
+        // Library.setBundlepath(Library.HTTP, bundle_loc);
+        // } else {
+        // String bundle_file_name = parseLoc(bundle_loc);
+        // String bundle_install = parseInstall(System.getProperty("osgi.install.area")); //$NON-NLS-1$
+        // String bundle_path = parseBundleList(System.getProperty("osgi.bundles"), bundle_file_name); //$NON-NLS-1$
+        // if (bundle_path == null || bundle_path.length() == bundle_file_name.length()) {
+        // bundle_path = bundle_install + bundle_file_name;
+        // }
+        //
+        // logger.info("bundle=" + bundle_file_name);
+        // logger.info("bundle_install=" + bundle_install);
+        // logger.info("bundle_path=" + bundle_path);
+        //
+        // Library.setBundlepath(Library.FILE, bundle_path);
+        // }
     }
 
     /**
      * Stop with the specified arg0 parameter.
      *
-     * @param arg0 The arg0 (<code>BundleContext</code>) parameter.
+     * @param ctx The <code>BundleContext</code> parameter.
      * @throws Exception Exception.
      */
     @Override
-    public void stop(final BundleContext arg0) throws Exception {
+    public void stop(final BundleContext ctx) throws Exception {
         /* do nothing */
     }
 }

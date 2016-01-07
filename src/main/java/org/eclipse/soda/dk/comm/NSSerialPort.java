@@ -21,6 +21,9 @@ import javax.comm.SerialPortEvent;
 import javax.comm.SerialPortEventListener;
 import javax.comm.UnsupportedCommOperationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * An RS-232 serial communications port. SerialPort describes the
  * low-level interface to a serial communications port made
@@ -32,6 +35,9 @@ import javax.comm.UnsupportedCommOperationException;
  * @since 1.0
  */
 class NSSerialPort extends SerialPort {
+
+    private final Logger logger = LoggerFactory.getLogger(NSSerialPort.class);
+
     /**
      * Define the databits5 (int) constant.
      */
@@ -385,7 +391,7 @@ class NSSerialPort extends SerialPort {
             try {
                 this.outs.flush();
             } catch (final IOException e) {
-                e.printStackTrace();
+                logger.error("flush failed", e);
             }
             this.outs = null;
         }

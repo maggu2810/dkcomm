@@ -17,6 +17,8 @@ import javax.comm.CommPort;
 import javax.comm.CommPortIdentifier;
 
 import org.eclipse.soda.dk.comm.internal.Library;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author IBM
@@ -24,11 +26,18 @@ import org.eclipse.soda.dk.comm.internal.Library;
  * @since 1.0
  */
 public class NSCommDriver implements CommDriver {
+
+    private static Logger logger() {
+        return LoggerFactory.getLogger(NSCommDriver.class);
+    }
+
+    private final Logger logger = logger();
+
     static {
         try {
             Library.load_dkcomm();
-        } catch (final UnsatisfiedLinkError exception) {
-            exception.printStackTrace();
+        } catch (final UnsatisfiedLinkError e) {
+            logger().error("Loading library failed.", e);
         }
     }
 
@@ -96,8 +105,8 @@ public class NSCommDriver implements CommDriver {
                     port = new NSParallelPort(portName, this);
                     break;
             }
-        } catch (final IOException exception) {
-            exception.printStackTrace();
+        } catch (final IOException e) {
+            logger.error("get comm port ({}, {}) failed", portName, portType, e);
             /* port is being used by another app? */
         }
         return port;

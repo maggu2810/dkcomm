@@ -21,12 +21,18 @@ import javax.comm.ParallelPortEvent;
 import javax.comm.ParallelPortEventListener;
 import javax.comm.UnsupportedCommOperationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author IBM
  * @version 1.2.0
  * @since 1.0
  */
 public class NSParallelPort extends ParallelPort {
+
+    private final Logger logger = LoggerFactory.getLogger(NSParallelPort.class);
+
     /**
      * Define the lpt mode any (int) constant.
      */
@@ -238,7 +244,7 @@ public class NSParallelPort extends ParallelPort {
             try {
                 this.outs.flush();
             } catch (final IOException e) {
-                e.printStackTrace();
+                logger.error("flush failed", e);
             }
             this.outs = null;
         }
