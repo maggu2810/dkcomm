@@ -1,2 +1,2 @@
-org.eclipse.soda.dk.comm/**/target
-org.eclipse.soda.dk.comm/META-INF
+target/
+META-INF/
