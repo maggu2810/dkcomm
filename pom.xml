@@ -12,6 +12,8 @@
   <description>An implementation of the serialdevice.api, based on SODA DK comm</description>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
@@ -21,12 +23,13 @@
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
       <version>5.0.0</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
-      <plugin>
+      <!--      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.7.2</version>
@@ -35,41 +38,17 @@
             <java.library.path>${project.basedir}/src/main/lib</java.library.path>
           </systemPropertyVariables>
         </configuration>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.5</version>
+        <version>3.0.1</version>
         <extensions>true</extensions>
         <configuration>
-          <!--
-          Manifest-Version: 1.0
-          Bundle-Activator: org.eclipse.soda.dk.comm.bundle.Activator
-          Bundle-Copyright: %bundle.copyright
-          Bundle-Description: %bundle.description
-          Bundle-Localization: OSGI-INF/l10n/bundle
-          Bundle-ManifestVersion: 2
-          Bundle-Name: %bundle.name
-          Bundle-SymbolicName: org.eclipse.soda.dk.comm
-          Bundle-Vendor: %bundle.vendor
-          Bundle-Version: 1.2.0.qualifier
-          Export-Package: javax.comm;version="1.2.0",
-           org.eclipse.soda.dk.comm;version="1.2.0",
-           org.eclipse.soda.dk.comm.bundle;version="1.2.0",
-           org.eclipse.soda.dk.comm.internal;version="1.2.0"
-          Import-Package: org.osgi.framework;version="1.4.0"
-          -->
           <manifestLocation>META-INF</manifestLocation>
           <instructions>
             <Bundle-Activator>org.eclipse.soda.dk.comm.bundle.Activator</Bundle-Activator>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Bundle-Name>%bundle.name</Bundle-Name>
-            <Bundle-Version>${project.version}</Bundle-Version>
-            <!--
-                                    <Embed-Dependency>
-                                        rxtx;groupId=org.rxtx;artifactId=rxtx;version=2.2.0;scope=runtime
-                                    </Embed-Dependency>
-            -->
             <Include-Resource>
               lib=${project.basedir}/src/main/lib,
               ${project.basedir}/about.html,
@@ -86,69 +65,14 @@
               lib/mac/x86/libdkcomm.jnilib; osname=macosx; processor=x86_64,
               *
             </Bundle-NativeCode>
-            <Import-Package>
-              org.osgi.framework;version="[1.5.0,2.0.0)"
-            </Import-Package>
             <Export-Package>
               javax.comm;version="1.2.0",
-              org.eclipse.soda.dk.comm;version="1.2.0",
-              org.eclipse.soda.dk.comm.bundle;version="1.2.0",
-              org.eclipse.soda.dk.comm.internal;version="1.2.0"
+              !*.internal,org.eclipse.soda.dk.comm
             </Export-Package>
           </instructions>
         </configuration>
       </plugin>
 
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
     </plugins>
-    <pluginManagement>
-      <plugins>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>
-                      org.apache.maven.plugins
-                    </groupId>
-                    <artifactId>
-                      maven-dependency-plugin
-                    </artifactId>
-                    <versionRange>
-                      [2.1,)
-                    </versionRange>
-                    <goals>
-                      <goal>
-                        copy-dependencies
-                      </goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore></ignore>
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
   </build>
 </project>
