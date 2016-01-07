@@ -56,7 +56,7 @@
             <Bundle-Activator>org.eclipse.soda.dk.comm.internal.Activator</Bundle-Activator>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Include-Resource>
-              lib=${project.basedir}/src/main/lib,
+              lib=${project.basedir}/lib,
               ${project.basedir}/about.html,
               about_files=${project.basedir}/about_files/
             </Include-Resource>
