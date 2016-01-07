@@ -36,7 +36,7 @@ public class CommPortIdentifier {
 
     static boolean initialized = false;
 
-    static Hashtable identifiers = new Hashtable(4); // initial number of
+    static Hashtable<String, CommPortIdentifier> identifiers = new Hashtable<>(4); // initial number of
     // ports
     // static block to ensure proper initialization
 
@@ -117,7 +117,7 @@ public class CommPortIdentifier {
      * @return an <CODE> Enumeration </CODE> object that can be used to enumerate all the ports known to the system
      * @see java.util.Enumeration
      */
-    public static Enumeration getPortIdentifiers() {
+    public static Enumeration<CommPortIdentifier> getPortIdentifiers() {
         return identifiers.elements();
     }
 
@@ -127,7 +127,7 @@ public class CommPortIdentifier {
 
     boolean currentlyOwned = false;
 
-    private List listeners;
+    private List<CommPortOwnershipListener> listeners;
 
     CommPort commPort = null;
 
@@ -136,7 +136,7 @@ public class CommPortIdentifier {
     private CommPortIdentifier(final String id, final int type) {
         this.name = id;
         this.type = type;
-        this.listeners = new Vector();
+        this.listeners = new Vector<>();
     }
 
     /**
@@ -175,8 +175,9 @@ public class CommPortIdentifier {
      * This method needs to be called when ownership of the port changes.
      */
     void fireOwnershipEvent(final int eventType) {
-        for (final Iterator eventListeners = this.listeners.iterator(); eventListeners.hasNext();) {
-            final CommPortOwnershipListener listener = (CommPortOwnershipListener) eventListeners.next();
+        for (final Iterator<CommPortOwnershipListener> eventListeners = this.listeners.iterator(); eventListeners
+                .hasNext();) {
+            final CommPortOwnershipListener listener = eventListeners.next();
             listener.ownershipChange(eventType);
         }
     }
