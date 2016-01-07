@@ -1,15 +1,12 @@
 package org.eclipse.soda.dk.comm.internal;
 
-/*************************************************************************
- * Copyright (c) 2007, 2009 IBM.                                         *
- * All rights reserved. This program and the accompanying materials      *
- * are made available under the terms of the Eclipse Public License v1.0 *
- * which accompanies this distribution, and is available at              *
- * http://www.eclipse.org/legal/epl-v10.html                             *
- *                                                                       *
- * Contributors:                                                         *
- *     IBM - initial API and implementation                              *
- ************************************************************************/
+/**
+ * ***********************************************************************
+ * Copyright (c) 2007, 2009 IBM. * All rights reserved. This program and the accompanying materials * are made available
+ * under the terms of the Eclipse Public License v1.0 * which accompanies this distribution, and is available at *
+ * http://www.eclipse.org/legal/epl-v10.html * * Contributors: * IBM - initial API and implementation *
+ ***********************************************************************
+ */
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -18,12 +15,16 @@ import java.net.URL;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author IBM
  * @version 1.2.0
  * @since 1.0
  */
 public class Library {
+
     /**
      * Define the http (String) constant.
      */
@@ -43,6 +44,10 @@ public class Library {
      * Define the bundlepath (String) field.
      */
     private static String bundlepath = ""; //$NON-NLS-1$
+
+    private static Logger logger() {
+        return LoggerFactory.getLogger(Library.class);
+    }
 
     /**
      * Load_dkcomm.
@@ -79,12 +84,12 @@ public class Library {
                 unzipLib_http(javalibpath, libpath, libname, bundlepath);
             }
         } catch (final IOException e) {
-            e.printStackTrace();
+            logger().error("unzip lib failed", e);
         }
         try {
             System.load(javalibpath + libname);
         } catch (java.lang.UnsatisfiedLinkError e) {
-            e.printStackTrace();
+            logger().error("System load({}) failed", javalibpath + libname, e);
         }
     }
 
@@ -97,7 +102,7 @@ public class Library {
         try {
             System.loadLibrary("dkcomm"); //$NON-NLS-1$
         } catch (final UnsatisfiedLinkError e) {
-            e.printStackTrace();
+            logger().error("System.loadLibrary(\"dkcomm\") failed", e);
             return false;
         }
         return true;
@@ -106,10 +111,8 @@ public class Library {
     /**
      * Perform unzip with the specified input and output parameters.
      *
-     * @param input
-     *            The input (<code>BufferedInputStream</code>) parameter.
-     * @param output
-     *            The output (<code>BufferedOutputStream</code>) parameter.
+     * @param input The input (<code>BufferedInputStream</code>) parameter.
+     * @param output The output (<code>BufferedOutputStream</code>) parameter.
      * @throws IOException IOException.
      */
     private static void performUnzip(final BufferedInputStream input, final BufferedOutputStream output)
@@ -129,10 +132,8 @@ public class Library {
     /**
      * Set bundlepath with the specified type and path parameters.
      *
-     * @param type
-     *            The type (<code>String</code>) parameter.
-     * @param path
-     *            The path (<code>String</code>) parameter.
+     * @param type The type (<code>String</code>) parameter.
+     * @param path The path (<code>String</code>) parameter.
      */
     public static void setBundlepath(final String type, final String path) {
         pathtype = type;
@@ -142,29 +143,28 @@ public class Library {
     /**
      * Unzip lib_http with the specified javalibpath, libpath, libname and url parameters.
      *
-     * @param javalibpath
-     *            The javalibpath (<code>String</code>) parameter.
-     * @param libpath
-     *            The libpath (<code>String</code>) parameter.
-     * @param libname
-     *            The libname (<code>String</code>) parameter.
-     * @param url
-     *            The URL (<code>String</code>) parameter.
+     * @param javalibpath The javalibpath (<code>String</code>) parameter.
+     * @param libpath The libpath (<code>String</code>) parameter.
+     * @param libname The libname (<code>String</code>) parameter.
+     * @param url The URL (<code>String</code>) parameter.
      * @throws IOException IOException.
      */
     private static void unzipLib_http(final String javalibpath, final String libpath, final String libname,
             final String url) throws IOException {
-        ZipInputStream zipInput = new ZipInputStream(new URL(url).openStream());
-        while (zipInput.available() != 0) {
-            try {
-                if (zipInput.getNextEntry().getName().equals(libpath + libname)) {
-                    BufferedInputStream input = new BufferedInputStream(zipInput);
-                    BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(javalibpath + libname));
-                    performUnzip(input, output);
+        try (ZipInputStream zipInput = new ZipInputStream(new URL(url).openStream())) {
+            while (zipInput.available() != 0) {
+                try {
+                    if (zipInput.getNextEntry().getName().equals(libpath + libname)) {
+                        try (BufferedInputStream input = new BufferedInputStream(zipInput);
+                                BufferedOutputStream output = new BufferedOutputStream(
+                                        new FileOutputStream(javalibpath + libname))) {
+                            performUnzip(input, output);
+                        }
+                        break;
+                    }
+                } catch (final Exception e) {
                     break;
                 }
-            } catch (final Exception e) {
-                break;
             }
         }
     }
@@ -172,22 +172,19 @@ public class Library {
     /**
      * Unzip lib_local with the specified javalibpath, libpath, libname and jarname parameters.
      *
-     * @param javalibpath
-     *            The javalibpath (<code>String</code>) parameter.
-     * @param libpath
-     *            The libpath (<code>String</code>) parameter.
-     * @param libname
-     *            The libname (<code>String</code>) parameter.
-     * @param jarname
-     *            The jarname (<code>String</code>) parameter.
+     * @param javalibpath The javalibpath (<code>String</code>) parameter.
+     * @param libpath The libpath (<code>String</code>) parameter.
+     * @param libname The libname (<code>String</code>) parameter.
+     * @param jarname The jarname (<code>String</code>) parameter.
      * @throws IOException IOException.
      */
     private static void unzipLib_local(final String javalibpath, final String libpath, final String libname,
             final String jarname) throws IOException {
-        ZipFile bundleJar = new ZipFile(jarname);
-        BufferedInputStream input = new BufferedInputStream(
-                bundleJar.getInputStream(bundleJar.getEntry(libpath + libname)));
-        BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(javalibpath + libname));
-        performUnzip(input, output);
+        try (ZipFile bundleJar = new ZipFile(jarname);
+                BufferedInputStream input = new BufferedInputStream(
+                        bundleJar.getInputStream(bundleJar.getEntry(libpath + libname)));
+                BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(javalibpath + libname))) {
+            performUnzip(input, output);
+        }
     }
 }
