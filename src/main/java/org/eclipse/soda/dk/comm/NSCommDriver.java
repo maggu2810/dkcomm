@@ -16,7 +16,7 @@ import javax.comm.CommDriver;
 import javax.comm.CommPort;
 import javax.comm.CommPortIdentifier;
 
-import org.eclipse.soda.dk.internal.Library;
+import org.eclipse.soda.dk.comm.internal.Library;
 
 /**
  * @author IBM
