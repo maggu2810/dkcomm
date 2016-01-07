@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.eclipse.kura</groupId>
+  <groupId>de.maggu2810.playground.dkcomm</groupId>
   <artifactId>org.eclipse.soda.dk.comm</artifactId>
-  <version>1.2.1</version>
+  <version>1.2.2-SNAPSHOT</version>
   <packaging>bundle</packaging>
 
   <name>Serial Device based on SODA DK comm</name>
