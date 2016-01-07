@@ -47,7 +47,7 @@
         <configuration>
           <manifestLocation>META-INF</manifestLocation>
           <instructions>
-            <Bundle-Activator>org.eclipse.soda.dk.comm.bundle.Activator</Bundle-Activator>
+            <Bundle-Activator>org.eclipse.soda.dk.comm.internal.Activator</Bundle-Activator>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Include-Resource>
               lib=${project.basedir}/src/main/lib,
