@@ -1,4 +1,4 @@
-package de.maggu2810.dkcomm;
+package org.eclipse.soda.dk.comm;
 
 /*************************************************************************
  * Copyright (c) 1999, 2009 IBM.                                         *
@@ -16,10 +16,9 @@ import javax.comm.CommDriver;
 import javax.comm.CommPort;
 import javax.comm.CommPortIdentifier;
 
+import org.eclipse.soda.dk.comm.internal.Library;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.maggu2810.dkcomm.internal.Library;
 
 /**
  * @author IBM

@@ -1,4 +1,4 @@
-package de.maggu2810.dkcomm.internal;
+package org.eclipse.soda.dk.comm.internal;
 
 /**
  * ***********************************************************************
@@ -52,11 +52,18 @@ public class Library {
     /**
      * Load_dkcomm.
      */
-    public static void load_dkcomm() {
-        if (load_from_java_lib_path() == false) {
+    public static boolean load_dkcomm() {
+        boolean succ;
+
+        succ = load_from_java_lib_path();
+
+        if (succ == false) {
             // To remain portable across OSGI implementations, Kura will only load from lib path
-            // load_from_bundle();
+            // succ = load_from_bundle();
         }
+
+        logger().info("load_dkcomm: {}", succ);
+        return succ;
     }
 
     /**

@@ -1,4 +1,4 @@
-package de.maggu2810.dkcomm;
+package org.eclipse.soda.dk.comm;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

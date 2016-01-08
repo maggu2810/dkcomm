@@ -1,4 +1,4 @@
-package de.maggu2810.dkcomm.internal;
+package org.eclipse.soda.dk.comm.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

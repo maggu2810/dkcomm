@@ -11,10 +11,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.soda.dk.comm.internal.Library;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.maggu2810.dkcomm.internal.Library;
 
 /**
  * @author IBM
@@ -61,7 +60,7 @@ public class CommPortIdentifier {
             System.exit(1);
         }
         if (!initialized) {
-            commDriver = new de.maggu2810.dkcomm.NSCommDriver();
+            commDriver = new org.eclipse.soda.dk.comm.NSCommDriver();
             commDriver.initialize();
             initialized = true;
         }

@@ -47,7 +47,7 @@
         <configuration>
           <manifestLocation>META-INF</manifestLocation>
           <instructions>
-            <Bundle-Activator>de.maggu2810.dkcomm.internal.Activator</Bundle-Activator>
+            <Bundle-Activator>org.eclipse.soda.dk.comm.internal.Activator</Bundle-Activator>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
             <Include-Resource>
               lib=${project.basedir}/lib,
@@ -68,7 +68,7 @@
             <Export-Package>
               javax.comm;version="1.2.0.sp1.SNAPSHOT",
               <!-- !*.internal, -->
-              de.maggu2810.dkcomm.*
+              org.eclipse.soda.dk.comm.*
             </Export-Package>
           </instructions>
         </configuration>

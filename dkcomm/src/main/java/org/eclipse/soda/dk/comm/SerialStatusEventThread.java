@@ -1,4 +1,4 @@
-package de.maggu2810.dkcomm;
+package org.eclipse.soda.dk.comm;
 
 /*************************************************************************
  * Copyright (c) 2007, 2009 IBM.                                         *
@@ -15,11 +15,16 @@ package de.maggu2810.dkcomm;
  * @version 1.2.0
  * @since 1.0
  */
-class SerialDataEventThread extends Thread {
+class SerialStatusEventThread extends Thread {
     /**
      * Define the serial port (NSSerialPort) field.
      */
     NSSerialPort serialPort = null;
+
+    /**
+     * Define the polling time (int) field.
+     */
+    private final int pollingTime = 5; // ??
 
     /**
      * Define the file descriptor (int) field.
@@ -37,9 +42,18 @@ class SerialDataEventThread extends Thread {
      * @param fd The fd (<code>int</code>) parameter.
      * @param sp The sp (<code>NSSerialPort</code>) parameter.
      */
-    SerialDataEventThread(final int fd, final NSSerialPort sp) {
-        this.serialPort = sp;
+    SerialStatusEventThread(final int fd, final NSSerialPort sp) {
         this.fileDescriptor = fd;
+        this.serialPort = sp;
+    }
+
+    /**
+     * Gets the polling time (int) value.
+     *
+     * @return The polling time (<code>int</code>) value.
+     */
+    public int getPollingTime() {
+        return this.pollingTime;
     }
 
     /**
@@ -53,18 +67,18 @@ class SerialDataEventThread extends Thread {
     }
 
     /**
-     * Monitor serial data nc with the specified fd parameter.
+     * Monitor serial status nc with the specified fd parameter.
      *
      * @param fd The fd (<code>int</code>) parameter.
      */
-    private native void monitorSerialDataNC(final int fd);
+    private native void monitorSerialStatusNC(final int fd);
 
     /**
      * Run.
      */
     @Override
     public void run() {
-        monitorSerialDataNC(this.fileDescriptor);
+        monitorSerialStatusNC(this.fileDescriptor);
     }
 
     /**
