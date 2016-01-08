@@ -1,4 +1,4 @@
-package org.eclipse.soda.dk.comm;
+package de.maggu2810.dkcomm;
 
 /*************************************************************************
  * Copyright (c) 2007, 2009 IBM.                                         *
@@ -15,16 +15,21 @@ package org.eclipse.soda.dk.comm;
  * @version 1.2.0
  * @since 1.0
  */
-class SerialDataEventThread extends Thread {
+class ParallelErrorEventThread extends Thread {
     /**
-     * Define the serial port (NSSerialPort) field.
+     * Define the pp (NSParallelPort) field.
      */
-    NSSerialPort serialPort = null;
+    NSParallelPort pp = null;
 
     /**
-     * Define the file descriptor (int) field.
+     * Define the polling time (int) field.
      */
-    private int fileDescriptor = -1;
+    private final int pollingTime = 5; // ??
+
+    /**
+     * Define the fd (int) field.
+     */
+    private int fd = -1;
 
     /**
      * Define the stop thread flag (int) field.
@@ -32,14 +37,23 @@ class SerialDataEventThread extends Thread {
     private int stopThreadFlag = 0;
 
     /**
-     * Constructs an instance of this class from the specified fd and sp parameters.
+     * Constructs an instance of this class from the specified ifd and port parameters.
      *
-     * @param fd The fd (<code>int</code>) parameter.
-     * @param sp The sp (<code>NSSerialPort</code>) parameter.
+     * @param ifd The ifd (<code>int</code>) parameter.
+     * @param port The port (<code>NSParallelPort</code>) parameter.
      */
-    SerialDataEventThread(final int fd, final NSSerialPort sp) {
-        this.serialPort = sp;
-        this.fileDescriptor = fd;
+    ParallelErrorEventThread(final int ifd, final NSParallelPort port) {
+        this.fd = ifd;
+        this.pp = port;
+    }
+
+    /**
+     * Gets the polling time (int) value.
+     *
+     * @return The polling time (<code>int</code>) value.
+     */
+    public int getPollingTime() {
+        return this.pollingTime;
     }
 
     /**
@@ -53,18 +67,18 @@ class SerialDataEventThread extends Thread {
     }
 
     /**
-     * Monitor serial data nc with the specified fd parameter.
+     * Monitor parallel error nc with the specified fd parameter.
      *
      * @param fd The fd (<code>int</code>) parameter.
      */
-    private native void monitorSerialDataNC(final int fd);
+    private native void monitorParallelErrorNC(final int fd);
 
     /**
      * Run.
      */
     @Override
     public void run() {
-        monitorSerialDataNC(this.fileDescriptor);
+        monitorParallelErrorNC(this.fd);
     }
 
     /**

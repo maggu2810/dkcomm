@@ -1,4 +1,4 @@
-package org.eclipse.soda.dk.comm;
+package de.maggu2810.dkcomm;
 
 /*************************************************************************
  * Copyright (c) 1999, 2009 IBM.                                         *

@@ -1,4 +1,4 @@
-package org.eclipse.soda.dk.comm.internal;
+package de.maggu2810.dkcomm.internal;
 
 /**
  * ***********************************************************************

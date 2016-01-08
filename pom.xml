@@ -3,13 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.maggu2810.playground.dkcomm</groupId>
-  <artifactId>org.eclipse.soda.dk.comm</artifactId>
+  <groupId>de.maggu2810.dkcomm</groupId>
+  <artifactId>root</artifactId>
   <version>1.2.2-SNAPSHOT</version>
-  <packaging>bundle</packaging>
-
-  <name>Serial Device based on SODA DK comm</name>
-  <description>An implementation of the serialdevice.api, based on SODA DK comm</description>
+  <packaging>pom</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,67 +15,36 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>5.0.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.7</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.core</artifactId>
+        <version>5.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.7</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
 
   <build>
-    <plugins>
-      <!--      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.7.2</version>
-        <configuration>
-          <systemPropertyVariables>
-            <java.library.path>${project.basedir}/src/main/lib</java.library.path>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>-->
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>3.0.1</version>
-        <extensions>true</extensions>
-        <configuration>
-          <manifestLocation>META-INF</manifestLocation>
-          <instructions>
-            <Bundle-Activator>org.eclipse.soda.dk.comm.internal.Activator</Bundle-Activator>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Include-Resource>
-              lib=${project.basedir}/lib,
-              ${project.basedir}/about.html,
-              about_files=${project.basedir}/about_files/
-            </Include-Resource>
-            <Bundle-NativeCode>
-              lib/linux/x86/libdkcomm.so; osname=Linux; processor=x86,
-              lib/linux/x86_64/libdkcomm.so; osname=Linux; processor=x86-64,
-              lib/linux/armv6_hf/libdkcomm.so; osname=Linux; processor=ARM; selection-filter="(&amp;(kura.arch=armv7_hf))",
-              lib/linux/armv5_sf/libdkcomm.so; osname=Linux; processor=ARM; selection-filter="(&amp;(kura.arch=armv7_sf))",
-              lib/linux/armv6_hf/libdkcomm.so; osname=Linux; processor=ARM; selection-filter="(&amp;(kura.arch=armv6_hf))",
-              lib/linux/armv5_sf/libdkcomm.so; osname=Linux; processor=ARM; selection-filter="(&amp;(kura.arch=armv6_sf))",
-              lib/linux/armv5_sf/libdkcomm.so; osname=Linux; processor=ARM; selection-filter="(&amp;(kura.arch=armv5_sf))",
-              lib/mac/x86/libdkcomm.jnilib; osname=macosx; processor=x86_64,
-              *
-            </Bundle-NativeCode>
-            <Export-Package>
-              javax.comm;version="1.2.0.sp1.SNAPSHOT",
-              !*.internal,org.eclipse.soda.dk.comm
-            </Export-Package>
-          </instructions>
-        </configuration>
-      </plugin>
-
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
+
+  <modules>
+    <module>dkcomm</module>
+  </modules>
+
 </project>
